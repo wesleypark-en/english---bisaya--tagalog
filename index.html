@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>English + Bisaya + Tagalog — Mini Lesson & Game</title>
+  <style>
+    :root{--accent:#0b78d1;--card:#fff;--bg:#f3f7fb}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); margin:0; color:#111}
+    .wrap{max-width:880px;margin:28px auto;padding:20px}
+    header{display:flex;gap:12px;align-items:center}
+    h1{margin:0;font-size:1.4rem}
+    p.lead{margin:6px 0 18px;color:#334}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(20,30,50,0.08)}
+    .vocab-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .vocab-item{display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;border:1px solid #eef}
+    .emoji{font-size:28px}
+    .word{font-weight:600}
+    small{display:block;color:#556;margin-top:4px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{background:var(--accent);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    button.secondary{background:#6c6f75}
+    .game-area{display:flex;flex-direction:column;gap:10px}
+    .options{display:flex;gap:8px;flex-wrap:wrap}
+    .opt{flex:1;padding:10px;border-radius:8px;border:2px solid #e6eef8;background:#fbfdff;cursor:pointer;text-align:center}
+    .opt.correct{border-color:green;background:#eefceeee}
+    .opt.wrong{border-color:#d9534f;background:#ffecec}
+    .footer{margin-top:14px;color:#445;font-size:0.9rem}
+    .score{font-weight:700}
+    .small-note{font-size:0.85rem;color:#556}
+    footer {
+      margin-top: 40px; padding: 10px; text-align: center; font-size: 0.85rem; color: #555; border-top: 1px solid #ddd;
+      background: #f9f9f9;
+    }
+    @media(max-width:880px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="font-size:32px">📘</div>
+      <div>
+        <h1>English + Bisaya (Cebuano) + Tagalog — Mini Lesson & Game</h1>
+        <p class="lead">Simple lesson for school-age students: see the English word, learn Bisaya & Tagalog translations, then play a matching game. (Instructions in Bisaya + Tagalog)</p>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- Left column: Lesson -->
+      <div>
+        <div class="card">
+          <h2>Lesson: Animals (Mga Hayop)</h2>
+          <p class="small-note"><strong>Instructions —</strong> Bisaya: "Pilia ang sakto nga English nga pulong." Tagalog: "Piliin ang tamang English na salita."</p>
+
+          <div class="vocab-list" id="vocab">
+            <!-- Vocab items inserted by JS -->
+          </div>
+
+          <div class="controls">
+            <button id="playAudio">🔊 Play English Audio</button>
+            <button class="secondary" id="showAll">Show all translations</button>
+            <button class="secondary" id="hideAll">Hide translations</button>
+          </div>
+
+          <div style="margin-top:12px;" class="small-note">Tip: Click <em>Play English Audio</em> to hear pronunciation. This uses your browser's speech synthesis in English.</div>
+        </div>
+
+        <div style="margin-top:14px" class="card">
+          <h3>About this prototype</h3>
+          <p class="small-note">Designed to be mobile-friendly and lightweight. You can add more lessons, swap in pictures, or connect to a database later.</p>
+        </div>
+      </div>
+
+      <!-- Right column: Game -->
+      <aside>
+        <div class="card">
+          <h2>Quick Game: Match the Picture to English</h2>
+          <div class="game-area">
+            <div id="picture" style="font-size:56px;text-align:center">🐶</div>
+            <div style="text-align:center;color:#334">Choose the <strong>English</strong> word that matches the picture.</div>
+            <div class="options" id="options">
+              <!-- Option buttons inserted by JS -->
+            </div>
+
+            <div class="footer">
+              <div>Score: <span class="score" id="score">0</span> | Attempts: <span id="attempts">0</span></div>
+              <div style="margin-top:8px"><button id="next">Next</button> <button class="secondary" id="reset">Reset</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px" class="card">
+          <h3>Feedback Messages</h3>
+          <ul class="small-note">
+            <li>Correct (Bisaya): <em>Sakto ka! Maayo kaayo!</em></li>
+            <li>Correct (Tagalog): <em>Tama ka! Magaling!</em></li>
+            <li>Wrong (Bisaya): <em>Sayop gamay, suwayi pag-usab.</em></li>
+            <li>Wrong (Tagalog): <em>Mali ng kaunti, subukan muli.</em></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div style="margin-top:18px" class="card">
+      <h3>Teacher / Parent Area (placeholder)</h3>
+      <p class="small-note">You can collect emails here, upload worksheets, or configure which words show up in the game. This prototype includes a field so users can enter their name for the scoreboard.</p>
+      <div style="display:flex;gap:8px;margin-top:6px;">
+        <input id="playerName" placeholder="Player name" style="flex:1;padding:8px;border-radius:8px;border:1px solid #ddd" />
+        <button id="saveName">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Wesley Park. All rights reserved.<br />
+    This educational content and code may not be used for commercial purposes without permission.
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    // Data: emoji used as simple picture placeholders
+    const ITEMS = [
+      {emoji: '🐶', english: 'Dog', bisaya: 'Iro', tagalog: 'Aso', sentenceEng: 'The dog is happy.', sentenceBis: 'Malipay ang iro.', sentenceTag: 'Masaya ang aso.'},
+      {emoji: '🐱', english: 'Cat', bisaya: 'Iring', tagalog: 'Pusa', sentenceEng: 'The cat is sleeping.', sentenceBis: 'Natulog ang iring.', sentenceTag: 'Natutulog ang pusa.'},
+      {emoji: '🐦', english: 'Bird', bisaya: 'Langgam', tagalog: 'Ibon', sentenceEng: 'The bird can fly.', sentenceBis: 'Makalupad ang langgam.', sentenceTag: 'Kakayahang lumipad ang ibon.'},
+      {emoji: '🐸', english: 'Frog', bisaya: 'Baka-baka', tagalog: 'Palaka', sentenceEng: 'The frog jumps.', sentenceBis: 'Mibanhaw ang baka-baka.', sentenceTag: 'Tumatalon ang palaka.'},
+      {emoji: '🐴', english: 'Horse', bisaya: 'Kabayo', tagalog: 'Kabayo', sentenceEng: 'The horse runs fast.', sentenceBis: 'Dali modagan ang kabayo.', sentenceTag: 'Mabilis tumakbo ang kabayo.'},
+      {emoji: '🐮', english: 'Cow', bisaya: 'Baka', tagalog: 'Baka', sentenceEng: 'The cow eats grass.', sentenceBis: 'Kaon og sagbot ang baka.', sentenceTag: 'Kumakain ng damo ang baka.'},
+      {emoji: '🐰', english: 'Rabbit', bisaya: 'Irong Kanding', tagalog: 'Kuneho', sentenceEng: 'The rabbit hops.', sentenceBis: 'Mokalibang ang irong kanding.', sentenceTag: 'Tumatalon ang kuneho.'},
+      {emoji: '🦊', english: 'Fox', bisaya: 'Soro', tagalog: 'Soro', sentenceEng: 'The fox is clever.', sentenceBis: 'Mautak ang soro.', sentenceTag: 'Matalino ang soro.'}
+    ];
+
+    // DOM refs
+    const vocabEl = document.getElementById('vocab');
+    const optionsEl = document.getElementById('options');
+    const pictureEl = document.getElementById('picture');
+    const scoreEl = document.getElementById('score');
+    const attemptsEl = document.getElementById('attempts');
+    const nextBtn = document.getElementById('next');
+    const resetBtn = document.getElementById('reset');
+    const playAudioBtn = document.getElementById('playAudio');
+    const showAllBtn = document.getElementById('showAll');
+    const hideAllBtn = document.getElementById('hideAll');
+
+    let state = {score:0, attempts:0, currentIndex:0, playerName: ''};
+
+    // Build vocab list
+    function renderVocab(){
+      vocabEl.innerHTML = '';
+      ITEMS.forEach(item =>{
+        const div = document.createElement('div'); div.className='vocab-item';
+        div.innerHTML = `<div class="emoji">${item.emoji}</div><div><div class="word">${item.english}</div><small class="translation"><strong>Bisaya:</strong> <span class="b">${item.bisaya}</span> &nbsp; <strong>Tagalog:</strong> <span class="t">${item.tagalog}</span></small></div>`;
+        vocabEl.appendChild(div);
+      });
+    }
+
+    // Game: show a random item and shuffle options
+    function shuffle(arr){
+      for(let i=arr.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      return arr;
+    }
+
+    function startRound(){
+      const idx = Math.floor(Math.random()*ITEMS.length);
+      state.currentIndex = idx;
+      const item = ITEMS[idx];
+      pictureEl.textContent = item.emoji;
+
+      // Prepare options (1 correct + 3 random)
+      const pool = [item.english];
+      while(pool.length<4){
+        const pick = ITEMS[Math.floor(Math.random()*ITEMS.length)].english;
+        if(!pool.includes(pick)) pool.push(pick);
+      }
+      shuffle(pool);
+      renderOptions(pool, item.english);
+    }
+
+    function renderOptions(pool, correct){
+      optionsEl.innerHTML='';
+      pool.forEach(text=>{
+        const btn = document.createElement('div'); btn.className='opt'; btn.textContent=text;
+        btn.addEventListener('click',()=> handleChoice(btn, text, correct));
+        optionsEl.appendChild(btn);
+      });
+    }
+
+    function handleChoice(btn, chosen, correct){
+      state.attempts++;
+      attemptsEl.textContent = state.attempts;
+      // disable all options
+      [...optionsEl.children].forEach(c=>c.style.pointerEvents='none');
+
+      if(chosen===correct){
+        btn.classList.add('correct');
+        state.score++;
+        scoreEl.textContent = state.score;
+        showFeedback(true);
+        speakText(correct);
+
+        // Launch confetti when correct!
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } else {
+        btn.classList.add('wrong');
+        // highlight the correct one
+        [...optionsEl.children].forEach(c=>{ if(c.textContent===correct) c.classList.add('correct'); });
+        showFeedback(false);
+      }
+    }
+
+    function showFeedback(isCorrect){
+      const msgBis = isCorrect ? 'Sakto ka! Maayo kaayo!' : 'Sayop gamay, suwayi pag-usab.';
+      const msgTag = isCorrect ? 'Tama ka! Magaling!' : 'Mali ng kaunti, subukan muli.';
+      alert(msgBis + ' / ' + msgTag);
+    }
+
+    function speakText(text){
+      if('speechSynthesis' in window){
+        const ut = new SpeechSynthesisUtterance(text);
+        ut.lang = 'en-US';
+        window.speechSynthesis.cancel();
+        window.speechSynthesis.speak(ut);
+      }
+    }
+
+    // Controls
+    nextBtn.addEventListener('click', ()=> startRound());
+    resetBtn.addEventListener('click', ()=>{
+      state.score=0; 
+      state.attempts=0; 
+      scoreEl.textContent=0; 
+      attemptsEl.textContent=0; 
+      startRound(); 
+    });
+    playAudioBtn.addEventListener('click', ()=>{
+      const cur = ITEMS[state.currentIndex]; 
+      if(cur) speakText(cur.english); 
+    });
+    showAllBtn.addEventListener('click', ()=>{ 
+      document.querySelectorAll('.translation').forEach(el=>el.style.display='block'); 
+    });
+    hideAllBtn.addEventListener('click', ()=>{ 
+      document.querySelectorAll('.translation').forEach(el=>el.style.display='none'); 
+    });
+
+    // Player name
+    document.getElementById('saveName').addEventListener('click', ()=>{
+      const name = document.getElementById('playerName').value.trim(); 
+      if(name){ 
+        state.playerName=name; 
+        alert('Saved name: '+name); 
+      }
+    });
+
+    // Initialize
+    renderVocab();
+    // start with translations hidden to encourage students to guess
+    document.querySelectorAll('.translation').forEach(el=>el.style.display='none');
+    startRound();
+  </script>
+</body>
+</html>
